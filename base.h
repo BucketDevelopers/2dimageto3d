@@ -5,6 +5,8 @@
 #include<math.h>
 #include<iostream>
 #include <opencv2/opencv.hpp>
+#define PI (3.141592653589793)
+
 using namespace cv;
 using namespace std;
 
@@ -151,6 +153,17 @@ lineclass* selectlinesonSlope(vector<Vec4i> &lines,int threshholdSlope)
     return start;
 }
 
+/************/
+/***MATH*****/
+/************/
+/*Find x2,y2 if x1,y1 and slope ,direction and distance is given*/
+void pointfinder(int x1,int y1,int& x2,int& y2,int dist,int angle,int direction)
+{
+
+    y2=y1+((direction>0)?1:-1)*(dist*sin(angle*PI/180.0));
+    x2=x1+((direction>0)?1:-1)*(dist*cos(angle*PI/180.0));
+
+}
 
 
 #endif // BASE_H_INCLUDED
