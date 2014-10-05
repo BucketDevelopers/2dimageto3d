@@ -14,13 +14,17 @@ using namespace std;
 class lineclass
 {
     float slope;
-
+    float c; // y = mx+c
+    float slope_m;
 public:
     int x1,x2,y1,y2;
     lineclass *next;
     void calculateSlope();
     void swaplinecords();
+    void calculate_c();
     int getSlope();
+    float get_x(float);
+    float get_y(float);
     void display();
 
 
@@ -34,6 +38,7 @@ public:
         this->next=NULL;
         swaplinecords();
         calculateSlope();
+        calculate_c();
 
     }
 
@@ -43,18 +48,18 @@ void lineclass::display()
 
     cout<<"\nCoords x1,y1,x2,y2 and slope "<<this->x1<<" "<<this->y1<<" "<<this->x2<<" "<<this->y2<<" "<<this->slope;
 
-
 }
 void lineclass::calculateSlope()
 {
     if(!(x2-x1))
     {
+        slope_m = INFINITY;
         slope=90.0;
     }
     else
     {
-        slope = (float)(y2-y1)/(float)(x2-x1);
-        slope=atan(slope)*180.0/3.14;
+        slope_m = (float)(y2-y1)/(float)(x2-x1);
+        slope=atan(slope_m)*180.0/PI;
         swaplinecords();
         //cout<<"\nSlope of line : "<<slope ;
     }
@@ -77,11 +82,32 @@ void lineclass::swaplinecords()
     }
 }
 
+void lineclass::calculate_c()
+{
+    this->c = this->y1-this->slope_m*this->x1;
+}
 int lineclass::getSlope()
 {
 
     return slope;
 
+}
+
+float lineclass::get_x(float y)
+{
+    float x = (y-c)/slope_m;
+    return x;
+}
+
+float lineclass::get_y(float x)
+{
+    float y;
+
+    if(x>this->x2 || x<this->x1)
+        return -1;
+
+    y = slope_m*x+c;
+    return y;
 }
 
 lineclass * allocate (lineclass& li)
